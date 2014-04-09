@@ -1,25 +1,49 @@
-#!/bin/bash
+﻿# dependencies
+sudo apt-get update
+sudo apt-get install -y nginx-full libpam-ldap
 
-# install pre-reqs
-sudo apt-get install -y vim git build-essential libldap-dev
+#-------------------------------------------------------
+# /etc/pam.d/nginx
+#-------------------------------------------------------
 
-mkdir temp
-cd temp
+cat > /etc/pam.d/nginx <<EOF
 
-git clone https://github.com/kvspb/nginx-auth-ldap.git
-cd nginx-auth-ldap
-git checkout v0.1 -b v0.1
-cd ..
+auth	required pam_ldap.so
+account required pam_ldap.so
+EOF
 
-wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.35.tar.gz
-tar zxvf pcre-8.35.tar.gz
+#-------------------------------------------------------
+#/etc/nginx/sites-available/node
+#-------------------------------------------------------
 
-# get nginx source
-wget http://nginx.org/download/nginx-1.4.7.tar.gz
-tar zxvf nginx-1.4.7.tar.gz
-cd nginx-1.4.7
+cat > /etc/nginx/sites-available/node <<EOF
 
-# build nginx
-./configure --add-module=../nginx-auth-ldap --with-pcre=../pcre-8.35
-make
-sudo make install
+# the IP(s) on which your node server is running. I chose port 3000.
+upstream node_app {
+    server 127.0.0.1:8000;
+}
+
+# the nginx server instance
+server {
+    listen 0.0.0.0:80;
+    access_log /var/log/nginx/node_app.log;
+
+    # pass the request to the node.js server with the correct headers and much more can be added, see nginx config options
+    location / {
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header Host $http_host;
+      proxy_set_header X-NginX-Proxy true;
+      proxy_set_header x-user $remote_user;
+
+      proxy_pass http://node_app/;
+      proxy_redirect off;
+
+      auth_pam               "Secure Zone";
+      auth_pam_service_name   "nginx";
+    }
+ }
+EOF
+ 
+cd /etc/nginx/sites-enabled
+ln -s /etc/nginx/sites-available/node node
