@@ -13,3 +13,9 @@ Provisioning to come later.
 
     cd node
     vagrant up
+
+### Startup Apache2 server
+
+    cd apache
+    vagrant up
+
