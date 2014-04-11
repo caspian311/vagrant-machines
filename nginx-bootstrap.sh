@@ -1,26 +1,24 @@
-﻿# dependencies
+﻿#!/bin/bash
+
+# dependencies
 sudo apt-get update
-sudo apt-get install -y nginx-full libpam-ldap
+sudo apt-get install -y nginx
 
 #-------------------------------------------------------
-# /etc/pam.d/nginx
+# create log files
 #-------------------------------------------------------
 
-cat > /etc/pam.d/nginx <<EOF
-
-auth	required pam_ldap.so
-account required pam_ldap.so
-EOF
+mkdir -p /var/log/nginx
 
 #-------------------------------------------------------
 #/etc/nginx/sites-available/node
 #-------------------------------------------------------
 
-cat > /etc/nginx/sites-available/node <<EOF
+cat > /etc/nginx/sites-available/node <<'EOF'
 
 # the IP(s) on which your node server is running. I chose port 3000.
 upstream node_app {
-    server 127.0.0.1:8000;
+    server 192.168.33.12:8000;
 }
 
 # the nginx server instance
@@ -38,12 +36,9 @@ server {
 
       proxy_pass http://node_app/;
       proxy_redirect off;
-
-      auth_pam               "Secure Zone";
-      auth_pam_service_name   "nginx";
     }
  }
 EOF
- 
+
 cd /etc/nginx/sites-enabled
 ln -s /etc/nginx/sites-available/node node
