@@ -2,20 +2,9 @@
 
 This is a repo so I can keep track of my servers. My hope is to eliminate all the stupid VirtualBox configurations I have to do everytime I setup a new project.
 
-Provisioning to come later.
+Better provisioning to come later.
 
-### Startup Couchbase server
+### Startup vms
 
-    cd couchbase
-    vagrant up
-
-### Startup Node server
-
-    cd node
-    vagrant up
-
-### Startup Apache2 server
-
-    cd apache
     vagrant up
 
