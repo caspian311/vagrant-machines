@@ -13,11 +13,11 @@ mkdir -p /var/log/nginx
 #/etc/nginx/sites-available/node
 #-------------------------------------------------------
 
-cat > /etc/nginx/sites-available/node <<'EOF'
+cat > /etc/nginx/sites-available/node <<-'EOF'
 
 # the IP(s) on which your node server is running. I chose port 3000.
 upstream node_app {
-    server 192.168.33.12:8000;
+    server 192.168.33.11:8000;
 }
 
 # the nginx server instance
