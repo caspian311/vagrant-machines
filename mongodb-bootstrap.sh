@@ -7,6 +7,6 @@ apt-get install -y --force-yes mongodb-org
 cat /vagrant/mongo-scripts/admin-user.js | mongo
 cat /vagrant/mongo-scripts/admin-user.js | mongo -u administrator -p 'P@$$W0rd' admin
 
-sed -i '/# auth = true/c\auth = true' /etc/mongod.conf
+sed -i '/#auth = true/c\auth = true' /etc/mongod.conf
 
 service mongo restart
