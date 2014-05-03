@@ -1,4 +1,4 @@
-﻿VAGRANTFILE_API_VERSION = "2"
+VAGRANTFILE_API_VERSION = "2"
 NAMED_NETWORK = 'en0: Wi-Fi (AirPort)'
 
 machines = [ 
