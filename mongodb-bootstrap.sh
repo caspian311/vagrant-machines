@@ -4,9 +4,16 @@ echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | 
 apt-get update
 apt-get install -y --force-yes mongodb-org 
 
+sleep 5
+
 cat /vagrant/mongo-scripts/admin-user.js | mongo
-cat /vagrant/mongo-scripts/admin-user.js | mongo -u administrator -p 'P@$$W0rd' admin
 
 sed -i '/#auth = true/c\auth = true' /etc/mongod.conf
 
-service mongo restart
+service mongod restart
+
+sleep 5
+
+cat /vagrant/mongo-scripts/kanban-js-user.js | mongo -u administrator -p 'P@$$W0rd' admin
+
+
