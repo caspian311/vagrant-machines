@@ -1,10 +1,9 @@
 
-# install latest nodejs
 apt-get update
 apt-get install -y software-properties-common python-software-properties
 add-apt-repository -y ppa:chris-lea/node.js
 apt-get update
-apt-get install -y nodejs git
+apt-get install -y nodejs git build-essential
 
 USER_NAME=node
 APP_NAME=kanban-js
@@ -19,7 +18,8 @@ mkdir -p ${deploy_to}
 
 git clone https://github.com/caspian311/kanban-js.git $deploy_to
 pushd $deploy_to &> /dev/null
-npm install --production
+npm install 
+./node_modules/.bin/jake compile:compile
 popd &> /dev/null
 
 chown -R $USER_NAME:$USER_NAME ${deploy_to}
