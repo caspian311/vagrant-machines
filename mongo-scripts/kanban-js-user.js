@@ -1,6 +1,6 @@
 use kanban-js
 db.createUser({
     user: "kanban-js",
-    pwd: "P@$$W0rd",
+    pwd: "password",
     roles: [ { role: "readWrite", db: "kanban-js" } ]
   })
