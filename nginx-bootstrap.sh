@@ -17,7 +17,7 @@ cat > /etc/nginx/sites-available/node <<-'EOF'
 
 # the IP(s) on which your node server is running. I chose port 3000.
 upstream node_app {
-    server 192.168.33.11:8000;
+    server 192.168.33.11:3000;
 }
 
 # the nginx server instance
@@ -41,3 +41,5 @@ EOF
 
 cd /etc/nginx/sites-enabled
 ln -s /etc/nginx/sites-available/node node
+
+service nginx restart
