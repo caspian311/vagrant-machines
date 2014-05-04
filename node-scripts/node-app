@@ -39,7 +39,7 @@ _start() {
     touch /var/log/node/kanban-js.log
     chown -R node:node /var/log/node
 
-    nohup su - node -c "MONGODB_URL='mongo://kanban-js:password@192.168.33.12/kanban-js' /usr/bin/node /var/node/kanban-js/app &>> /var/log/node/kanban-js.log" &
+    nohup su - node -c "MONGODB_URL='mongodb://kanban-js:password@192.168.33.12:27017/kanban-js' /usr/bin/node /var/node/kanban-js/app &>> /var/log/node/kanban-js.log" &
     pid=$!
     $ECHO -n $pid > /var/run/node-app.pid
 
