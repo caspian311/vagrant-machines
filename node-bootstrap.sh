@@ -4,10 +4,10 @@ apt-get update
 apt-get install -y software-properties-common python-software-properties
 add-apt-repository -y ppa:chris-lea/node.js
 apt-get update
-apt-get install -y nodejs
+apt-get install -y nodejs git
 
 USER_NAME=node
-APP_NAME=example-app
+APP_NAME=kanban-js
 
 # setup deploy account
 adduser --disabled-password --gecos "Node User" $USER_NAME
@@ -17,20 +17,15 @@ passwd -l $USER_NAME
 deploy_to=/var/node/$APP_NAME
 mkdir -p ${deploy_to}
 
-cat > ${deploy_to}/app.js <<-'EOF'
-var http = require('http');
+git clone https://github.com/caspian311/kanban-js.git $deploy_to
+pushd $deploy_to &> /dev/null
+npm install --production
+popd &> /dev/null
 
-var server = http.createServer(function (request, response) {
-   console.log('Received request');
-   response.writeHead(200, {"Content-Type": "text/plain"});
-   response.end("Hello World\n");
-});
+chown -R $USER_NAME:$USER_NAME ${deploy_to}
 
-var port = 8000;
-server.listen(port, function() {
-   console.log('node listening on port: ' + port);
-});
+cp /vagrant/node-scripts/node-app /etc/init.d/node-app
 
-EOF
+update-rc.d node-app defaults 
 
-chown -R deploy:deploy ${deploy_to}
+service node-app start

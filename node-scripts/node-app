@@ -1,0 +1,77 @@
+#!/bin/sh -e
+### BEGIN INIT INFO
+# Provides:          node-app
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start node app daemon at boot time
+# Description:       Enable service provided by daemon.
+### END INIT INFO
+
+COMMAND="$1"
+USER=node
+
+ECHO=echo
+
+_status() {
+    $ECHO
+    if [ -s /var/run/node-app.pid ]
+    then
+        pid=$(cat /var/run/node-app.pid)
+        set +e
+        ps -ef | grep $pid | grep -v grep &> /dev/null
+        running=$?
+        set -e
+    fi
+
+    if [ "$running" = "0" ]
+    then
+        $ECHO Service is running
+    else
+        $ECHO Service is not running
+    fi
+}
+
+_start() {
+    $ECHO -n "Starting service..."
+    mkdir -p /var/log/node
+    touch /var/log/node/kanban-js.log
+    chown -R node:node /var/log/node
+
+    nohup su - node -c "/usr/bin/node /var/node/kanban-js/app &>> /var/log/node/kanban-js.log" &
+    pid=$!
+    $ECHO -n $pid > /var/run/node-app.pid
+
+    $ECHO "done"
+}
+
+_stop() {
+    $ECHO -n "Stopping service..."
+
+    if [ -s /var/run/node-app.pid ]
+    then
+        kill $(cat /var/run/node-app.pid)
+    fi
+
+    $ECHO "done"
+}
+
+case $COMMAND in
+status)
+    _status
+    ;;
+start)
+    _start
+    ;;
+stop)
+    _stop
+    ;;
+restart)
+    _stop
+    _start
+    ;;
+*)
+    $ECHO "Don't know how to $COMMAND"
+    exit 1
+esac
