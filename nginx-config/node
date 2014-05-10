@@ -1,20 +1,3 @@
-
-# dependencies
-sudo apt-get update
-sudo apt-get install -y nginx
-
-#-------------------------------------------------------
-# create log files
-#-------------------------------------------------------
-
-mkdir -p /var/log/nginx
-
-#-------------------------------------------------------
-#/etc/nginx/sites-available/node
-#-------------------------------------------------------
-
-cat > /etc/nginx/sites-available/node <<-'EOF'
-
 # the IP(s) on which your node server is running. I chose port 3000.
 upstream node_app {
     server 192.168.33.11:3000;
@@ -37,9 +20,3 @@ server {
       proxy_redirect off;
     }
  }
-EOF
-
-cd /etc/nginx/sites-enabled
-ln -s /etc/nginx/sites-available/node node
-
-service nginx restart
