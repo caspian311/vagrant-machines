@@ -18,7 +18,7 @@ mkdir -p ${deploy_to}
 
 git clone https://github.com/caspian311/kanban-js.git $deploy_to
 pushd $deploy_to &> /dev/null
-npm install 
+npm install --production
 ./node_modules/.bin/jake compile:compile
 popd &> /dev/null
 
