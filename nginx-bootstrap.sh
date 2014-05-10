@@ -1,7 +1,13 @@
 
+#-------------------------------------------------------
 # dependencies
-sudo apt-get update
-sudo apt-get install -y nginx git
+#-------------------------------------------------------
+
+apt-get update
+apt-get install -y software-properties-common python-software-properties
+add-apt-repository -y ppa:chris-lea/node.js
+apt-get update
+apt-get install -y nginx nodejs git build-essential
 
 #-------------------------------------------------------
 # create log files
@@ -25,3 +31,6 @@ service nginx restart
 #-------------------------------------------------------
 
 git clone https://github.com/caspian311/kanban-js.git /var/node/kanban-js
+cd /var/node/kanban-js
+npm install --production
+./node_modules/.bin/jake compile:compile
