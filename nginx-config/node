@@ -6,10 +6,10 @@ upstream node_app {
 # the nginx server instance
 server {
     listen 0.0.0.0:80;
-    access_log /var/log/nginx/node_app.log;
 
     # pass the request to the node.js server with the correct headers and much more can be added, see nginx config options
     location / {
+      access_log /var/log/nginx/node_app.log;
       proxy_set_header X-Real-IP $remote_addr;
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
       proxy_set_header Host $http_host;
@@ -18,5 +18,11 @@ server {
 
       proxy_pass http://node_app/;
       proxy_redirect off;
+    }
+
+    location ~* .*.(jpg|jpeg|gif|png|ico|css|zip|tgz|gz|rar|bz2|pdf|txt|tar|wav|bmp|rtf|js|flv|swf|html|htm)$ {
+       access_log /var/log/nginx/static_content.log;
+       expires max;
+       root /var/node/kanban-js/public;
     }
  }
