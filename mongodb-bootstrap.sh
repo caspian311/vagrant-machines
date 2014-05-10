@@ -14,7 +14,6 @@ echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | 
 apt-get update
 apt-get install -y --force-yes mongodb-org 
 
-wait_for_db
 
 sed -i '/#auth = true/c\auth = true' /etc/mongod.conf
 sed -i '/bind_ip/c\#bind_ip = 127.0.0.1' /etc/mongod.conf
@@ -22,9 +21,9 @@ sed -i '/port = /c\port = 27017' /etc/mongod.conf
 
 service mongod restart
 
-cat /vagrant/mongo-scripts/admin-user.js | mongo admin
-
 wait_for_db
+
+cat /vagrant/mongo-scripts/admin-user.js | mongo 
 
 cat /vagrant/mongo-scripts/kanban-js-user.js | mongo -u administrator -p password admin
 
