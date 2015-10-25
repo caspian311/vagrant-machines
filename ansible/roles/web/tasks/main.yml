@@ -1,0 +1,15 @@
+---
+# playbook that will install nginx
+
+- name: install nginx
+  apt: name={{ item }} state=installed
+  with_items:
+    - nginx
+ 
+- name: nginx service state
+  service: name=nginx state=started enabled=yes
+
+- name: copy code from the repository
+  # this is wrong but i'll fix it later
+  git: repo={{ git_repo }} dest=/var/www/html
+

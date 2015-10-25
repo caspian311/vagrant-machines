@@ -1,0 +1,12 @@
+---
+# playbook that will install ruby and all app dependencies
+
+- name: install ruby
+  apt: name={{ item }} state=installed
+  with_items:
+    - ruby
+
+- name: copy code from the repository
+  # this is wrong but i'll fix it later
+  git: repo={{ git_repo }} dest=/opt/app
+

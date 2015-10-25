@@ -1,0 +1,5 @@
+---
+# variables used in the webserver playbooks
+
+git_repo: https://github.com/caspian311/rails-todo-app.git
+
