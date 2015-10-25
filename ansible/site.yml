@@ -1,0 +1,30 @@
+---
+# playbook to setup todo-app site
+
+- name: apply common configuration to all roles
+  hosts: all
+  remote_user: root
+
+  roles: 
+    - common
+
+- name: configure and deploy web content
+  hosts: webservers
+  remote_user: root
+
+  roles:
+    - web
+
+- name: configure and deploy application
+  hosts: appservers
+  remote_user: root
+
+  roles:
+    - app
+
+- name: configure and deploy database
+  hosts: dbservers
+  remote_user: root
+
+  roles:
+    - db

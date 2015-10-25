@@ -1,0 +1,7 @@
+---
+# variables used in the database playbooks
+
+mysql_port: 3306
+db_name: todo
+db_user: todo
+db_password: secret
