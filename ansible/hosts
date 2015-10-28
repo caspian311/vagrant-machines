@@ -1,8 +1,0 @@
-[webservers]
-todo-web.lvh.me
-
-[appservers]
-todo-app.lvh.me
-
-[dbservers]
-todo-db.lvh.me
