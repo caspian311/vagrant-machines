@@ -1,0 +1,12 @@
+todo-web ansible_port=2222 ansible_host=todo-web.lvh.me ansible_user=vagrant
+todo-app ansible_port=2222 ansible_host=todo-app.lvh.me ansible_user=vagrant
+todo-db ansible_port=2222 ansible_host=todo-db.lvh.me ansible_user=vagrant
+
+[webservers]
+todo-web
+
+[appservers]
+todo-app
+
+[dbservers]
+todo-db
