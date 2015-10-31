@@ -5,6 +5,7 @@
   apt: name={{ item }} state=installed
   with_items:
     - nginx
+    - git
  
 - name: nginx service state
   service: name=nginx state=started enabled=yes
