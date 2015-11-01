@@ -7,6 +7,10 @@
     - nginx
     - git
  
+- name: copy nginx configuration
+  template: src=nginx-default.conf dest=/etc/nginx/conf.d/default.conf
+  notify: restart nginx
+
 - name: nginx service state
   service: name=nginx state=started enabled=yes
 

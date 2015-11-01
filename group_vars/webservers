@@ -1,5 +1,7 @@
 ---
 # variables used in the webserver playbooks
 
+nginx_port: 80
+server_hostname: todo-web.lvh.me
 git_repo: https://github.com/caspian311/rails-todo-app.git
 
