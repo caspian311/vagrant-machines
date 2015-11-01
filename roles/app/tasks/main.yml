@@ -11,6 +11,7 @@
     - ruby2.2-dev
     - zlib1g-dev
     - libmysqlclient-dev
+    - nodejs
     - git
 
 - name: install bundler
