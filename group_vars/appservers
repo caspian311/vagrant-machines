@@ -1,5 +1,6 @@
 ---
-# variables used in the webserver playbooks
+# variables used in the appserver playbooks
 
+app_directory: /opt/app
 git_repo: https://github.com/caspian311/rails-todo-app.git
 
