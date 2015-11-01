@@ -10,7 +10,7 @@ machines = [
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |configure|
 
-  configure.vm.network :public_network, bridged: NAMED_NETWORK
+  configure.vm.network :public_network, bridge: NAMED_NETWORK
 #  configure.ssh.forward_agent = true
 
   machines.each do |machine|

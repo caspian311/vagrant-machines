@@ -4,8 +4,8 @@
 - name: apply common configuration to all roles
   hosts: all
   user: vagrant
-  sudo: True
-  sudo_user: root
+  become: True
+  become_user: root
 
   roles: 
     - common
@@ -13,8 +13,8 @@
 - name: configure and deploy web content
   hosts: webservers
   user: vagrant
-  sudo: True
-  sudo_user: root
+  become: True
+  become_user: root
 
   roles:
     - web
@@ -22,8 +22,8 @@
 - name: configure and deploy application
   hosts: appservers
   user: vagrant
-  sudo: True
-  sudo_user: root
+  become: True
+  become_user: root
 
   roles:
     - app
@@ -31,8 +31,8 @@
 - name: configure and deploy database
   hosts: dbservers
   user: vagrant
-  sudo: True
-  sudo_user: root
+  become: True
+  become_user: root
 
   roles:
     - db
