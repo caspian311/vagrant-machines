@@ -15,6 +15,14 @@
   service: name=nginx state=started enabled=yes
 
 - name: copy code from the repository
-  # this is wrong but i'll fix it later
-  git: repo={{ git_repo }} dest=/var/www/html
+  git: repo={{ git_repo }} dest=/opt/app
+
+- name: create static content directory
+  file: path=/var/www/html state=directory
+
+- name: link public folder
+  file: src=/opt/app/public dest=/var/www/html/public state=link
+
+- name: link static assets
+  file: src=/opt/app/app/assets dest=/opt/app/public/assets state=link
 
