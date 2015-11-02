@@ -8,7 +8,7 @@
     - python-mysqldb
 
 - name: create mysql configuration files
-  template: src=my.cnf.j2 dest=/etc/my.cnf
+  template: src=my.cnf.j2 dest=/etc/mysql/my.cnf
   notify:
     - restart mysql
 

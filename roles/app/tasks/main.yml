@@ -11,15 +11,50 @@
     - ruby2.2-dev
     - zlib1g-dev
     - libmysqlclient-dev
+    - mysql-client-5.5
     - nodejs
     - git
 
 - name: install bundler
   command: gem install bundler
 
+- name: copy unicorn init script
+  template: src=unicorn_init.sh.j2 dest=/etc/init.d/{{ app_name }} mode=0751
+
 - name: copy code from the repository
-  git: repo={{ git_repo }} dest={{ app_directory }}
+  git: repo={{ git_repo }} dest={{ app_directory }} force=yes
+
+- name: copy over the unicorn configuration
+  template: src=unicorn_config.rb.j2 dest={{ app_directory }}/config/unicorn.rb
 
 - name: bundle install
-  command: bundle install chdir={{ app_directory }}
+  command: bundle install --without development test chdir={{ app_directory }}
+
+- name: create service user
+  user: name={{ app_name }} home={{ user_home }}
+
+- name: create shared_runtime_dir
+  file: path={{ shared_runtime_dir }} state=directory
+
+- name: set ownership of app directories
+  command: find {{ user_home }} -type d -exec chown {{ app_name }}:root {} \;
+
+- name: set permission of app directories
+  command: find {{ user_home }} -type d -exec chmod 0755 {} \;
+
+- name: set ownership of shared_runtime directories
+  command: chown {{ user_name }}:root {{ shared_runtime_dir }}
+
+- name: set permission of shared_runtime directories
+  command: chmod 0755 {{ shared_runtime_dir }}
+
+- name: set ownership of app files
+  command: find {{ user_home }} -type f -exec chown {{ app_name }}:root {} \;
+
+- name: set ownership of app files
+  command: find {{ user_home }} -type f -exec chmod 0644 {} \;
+
+- name: release stamp
+  command: echo Released on ${date} > {{ user_home}}/release.txt
+  notify: restart app
 

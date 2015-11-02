@@ -2,9 +2,9 @@ VAGRANTFILE_API_VERSION = "2"
 NAMED_NETWORK = 'en0: Wi-Fi (AirPort)'
 
 machines = [ 
-    { :name => 'todo-web', :addr => '192.168.33.10' }, 
+    { :name => 'todo-db',  :addr => '192.168.33.12' },
     { :name => 'todo-app', :addr => '192.168.33.11' },
-    { :name => 'todo-db',  :addr => '192.168.33.12' } 
+    { :name => 'todo-web', :addr => '192.168.33.10' } 
   ]
 
 
