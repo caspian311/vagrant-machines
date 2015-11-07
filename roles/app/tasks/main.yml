@@ -54,6 +54,11 @@
 - name: set ownership of app files
   command: find {{ user_home }} -type f -exec chmod 0644 {} \;
 
+- name: migrate database
+  command: rake db:create db:migrate chdir={{ app_directory }}
+  environment:
+    RAILS_ENV: '{{ rails_env }}'
+
 - name: release stamp
   command: echo Released on ${date} > {{ user_home}}/release.txt
   notify: restart app

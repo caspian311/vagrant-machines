@@ -3,6 +3,8 @@
 
 app_name: todo-app
 
+rails_env: production
+
 user_name: "{{ app_name }}"
 user_home: /opt/{{ app_name }}
 
