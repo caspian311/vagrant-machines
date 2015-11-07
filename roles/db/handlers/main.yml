@@ -2,5 +2,5 @@
 # handler to do db layer notifications
 
 - name: restart mysql
-  service: name=mysqld state=restarted
+  service: name=mysql state=restarted
 
