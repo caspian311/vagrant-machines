@@ -55,7 +55,7 @@
   command: find {{ user_home }} -type f -exec chmod 0644 {} \;
 
 - name: migrate database
-  command: rake db:create db:migrate chdir={{ app_directory }}
+  command: rake db:create db:migrate db:seed chdir={{ app_directory }}
   environment:
     RAILS_ENV: '{{ rails_env }}'
 
