@@ -33,6 +33,11 @@
 - name: set permission of shared_runtime directories
   command: chmod 0755 {{ shared_runtime_dir }}
 
+- name: fetch code from the repository
+  git: repo={{ git_repo }} dest={{ app_directory }} force=yes
+  become: yes
+  become_user: '{{ app_name }}'
+
 - name: copy user config files
   template: src={{ item.src }} dest={{ item.dest }}
   with_items:
@@ -40,21 +45,14 @@
     - { src: 'gemrc.j2', dest: '{{ user_home }}/.gemrc' }
     - { src: 'profile.j2', dest: '{{ user_home }}/.profile' }
 
-- name: fetch code from the repository
-  git: repo={{ git_repo }} dest={{ app_directory }} force=yes
-  become: yes
-  become_user: '{{ app_name }}'
-
 - name: bundle install
-  command: bundle install --without development test chdir={{ app_directory }}
+  command: bundle install --path vendor/bundle --without development test chdir={{ app_directory }}
   become: yes
   become_user: '{{ app_name }}'
 
 - name: migrate database
-  command: rake db:create db:migrate db:seed chdir={{ app_directory }}
+  shell: . {{ user_home }}/.profile && rake db:create db:migrate db:seed chdir={{ app_directory }}
   become: yes
   become_user: '{{ app_name }}'
-  environment:
-    RAILS_ENV: '{{ rails_env }}'
   notify: restart app
 

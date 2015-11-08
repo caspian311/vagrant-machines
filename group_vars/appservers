@@ -16,3 +16,4 @@ unicorn_pid: "{{ shared_runtime_dir }}/app.pid"
 error_log: "{{ shared_runtime_dir }}/{{ app_name }}-error.log"
 output_log: "{{ shared_runtime_dir }}/{{ app_name }}-out.log"
 
+mysql_socket: /var/run/mysqld/mysqld.sock

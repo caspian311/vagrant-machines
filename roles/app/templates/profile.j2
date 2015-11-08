@@ -1,10 +1,13 @@
-PATH=/usr/local/bin:/usr/bin:/bin
+#!/bin/bash
 
-RAILS_ENV=production
+export PATH=/usr/local/bin:/usr/bin:/bin
 
-RAILS_DB_NAME={{ db_name  }}
-RAILS_DB_USER={{ db_user }}
-RAILS_DB_PASSWORD={{ db_password }}
-RAILS_DB_HOST={{ mysql_host }}
-RAILS_DB_PORT={{ mysql_port }}
+export RAILS_ENV=production
+
+export RAILS_DB_NAME={{ db_name  }}
+export RAILS_DB_USER={{ db_user }}
+export RAILS_DB_PASSWORD={{ db_password }}
+export RAILS_DB_HOST={{ mysql_host }}
+export RAILS_DB_PORT={{ mysql_port }}
+export RAILS_DB_SOCKET={{ mysql_socket }}
 
