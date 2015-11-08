@@ -4,7 +4,8 @@
 nginx_port: 80
 server_hostname: todo-web
 
-web_root: /var/www/html/public
+checkout_dir: /var/www/html
+web_root: '{{ checkout_dir }}/public'
 git_repo: https://github.com/caspian311/rails-todo-app.git
 
 rails_app_uri: 192.168.33.11:3000

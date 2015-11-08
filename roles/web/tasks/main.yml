@@ -9,20 +9,11 @@
  
 - name: copy nginx configuration
   template: src=nginx-default.conf dest=/etc/nginx/sites-enabled/default
-  notify: restart nginx
 
 - name: nginx service state
   service: name=nginx state=started enabled=yes
 
 - name: copy code from the repository
-  git: repo={{ git_repo }} dest=/opt/app
-
-- name: create static content directory
-  file: path=/var/www/html state=directory
-
-- name: link public folder
-  file: src=/opt/app/public dest=/var/www/html/public state=link
-
-- name: link static assets
-  file: src=/opt/app/app/assets dest=/opt/app/public/assets state=link
+  git: repo={{ git_repo }} dest={{ checkout_dir }}
+  notify: restart nginx
 
