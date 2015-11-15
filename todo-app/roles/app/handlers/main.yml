@@ -1,0 +1,6 @@
+---
+# handler to do db layer notifications
+
+- name: restart app
+  service: name={{ app_name }} state=restarted
+

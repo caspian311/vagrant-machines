@@ -1,0 +1,38 @@
+---
+# playbook to setup todo-app site
+
+- name: apply common configuration to all roles
+  hosts: all
+  user: vagrant
+  become: True
+  become_user: root
+
+  roles: 
+    - common
+
+- name: configure and deploy web content
+  hosts: webservers
+  user: vagrant
+  become: True
+  become_user: root
+
+  roles:
+    - web
+
+- name: configure and deploy application
+  hosts: appservers
+  user: vagrant
+  become: True
+  become_user: root
+
+  roles:
+    - app
+
+- name: configure and deploy database
+  hosts: dbservers
+  user: vagrant
+  become: True
+  become_user: root
+
+  roles:
+    - db

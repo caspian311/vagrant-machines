@@ -1,0 +1,19 @@
+---
+# variables used in the appserver playbooks
+
+app_name: todo-app
+
+rails_env: production
+
+user_name: "{{ app_name }}"
+user_home: /opt/{{ app_name }}
+
+app_directory: "{{ user_home }}/application"
+git_repo: https://github.com/caspian311/rails-todo-app.git
+
+shared_runtime_dir: /var/run/{{ app_name }}
+unicorn_pid: "{{ shared_runtime_dir }}/app.pid"
+error_log: "{{ shared_runtime_dir }}/{{ app_name }}-error.log"
+output_log: "{{ shared_runtime_dir }}/{{ app_name }}-out.log"
+
+mysql_socket: /var/run/mysqld/mysqld.sock

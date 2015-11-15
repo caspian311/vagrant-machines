@@ -1,0 +1,68 @@
+#!/bin/sh -e
+### BEGIN INIT INFO
+# Provides:          node-app
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start node app daemon at boot time
+# Description:       Enable service provided by daemon.
+### END INIT INFO
+
+COMMAND="$1"
+USER=node
+
+_status() {
+    set +e
+    ps -ef | grep '/usr/bin/node' | grep -v grep > /dev/null 2>&1
+    running=$?
+    set -e
+
+    if [ "$running" = "0" ]
+    then
+        echo "Service is running"
+    else
+        echo "Service is not running"
+    fi
+}
+
+_start() {
+    echo -n "Starting service..."
+    mkdir -p /var/log/node
+    touch /var/log/node/kanban-js.log
+    chown -R node:node /var/log/node
+
+    su - node -c "MONGODB_URL='mongodb://kanban-js:password@192.168.33.12:27017/kanban-js' /usr/bin/node /var/node/kanban-js/app &>> /var/log/node/kanban-js.log" &
+
+    echo "done"
+}
+
+_stop() {
+    echo -n "Stopping service..."
+
+    set +e
+    killall node > /dev/null 2>&1
+    set -e
+
+    echo "done"
+}
+
+case $COMMAND in
+status)
+    _status
+    ;;
+start)
+    _start
+    ;;
+stop)
+    _stop
+    ;;
+restart)
+    _stop
+    _start
+    ;;
+*)
+    echo "Don't know how to $COMMAND"
+    exit 1
+esac
+

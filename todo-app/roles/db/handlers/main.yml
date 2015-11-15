@@ -1,0 +1,6 @@
+---
+# handler to do db layer notifications
+
+- name: restart mysql
+  service: name=mysql state=restarted
+
