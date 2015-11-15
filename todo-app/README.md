@@ -1,10 +1,7 @@
-##Vagrant Servers
+##TODO App
 
-This is a repo so I can keep track of my servers. My hope is to eliminate all the stupid VirtualBox configurations I have to do everytime I setup a new project.
-
-Better provisioning to come later.
+This was mainly my way of experimenting with Ansible. The app itself is trivial.
 
 ### Startup vms
 
     vagrant up
-
