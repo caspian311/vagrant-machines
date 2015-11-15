@@ -1,0 +1,17 @@
+---
+# variables used in the webserver playbooks
+
+nginx_port: 80
+server_hostname: todo-web
+
+checkout_dir: /var/www/html
+web_root: '{{ checkout_dir }}/public'
+git_repo: https://github.com/caspian311/rails-todo-app.git
+
+rails_app_uri: 192.168.33.11:3000
+rails_rest_path: /
+static_content_path: ~* .*.(jpg|jpeg|gif|png|ico|css|zip|tgz|gz|rar|bz2|pdf|txt|tar|wav|bmp|rtf|js|flv|swf|html|htm|woff)$ 
+
+rails_app_log: /var/log/nginx/rails_app.log
+static_content_log: /var/log/nginx/static_content.log
+

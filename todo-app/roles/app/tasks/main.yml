@@ -1,0 +1,58 @@
+---
+# playbook that will install ruby and all app dependencies
+
+- name: add ruby apt repo
+  apt_repository: repo='ppa:brightbox/ruby-ng' state=present
+
+- name: install ruby
+  apt: name={{ item }} state=installed
+  with_items:
+    - ruby2.2
+    - ruby2.2-dev
+    - zlib1g-dev
+    - libmysqlclient-dev
+    - mysql-client-5.5
+    - nodejs
+    - git
+
+- name: install bundler
+  command: gem install bundler
+
+- name: copy unicorn init script
+  template: src=unicorn_init.sh.j2 dest=/etc/init.d/{{ app_name }} mode=0751
+
+- name: create shared_runtime_dir
+  file: path={{ shared_runtime_dir }} state=directory
+
+- name: create service user
+  user: name={{ app_name }} home={{ user_home }}
+
+- name: set ownership of shared_runtime directories
+  command: chown {{ user_name }}:root {{ shared_runtime_dir }}
+
+- name: set permission of shared_runtime directories
+  command: chmod 0755 {{ shared_runtime_dir }}
+
+- name: fetch code from the repository
+  git: repo={{ git_repo }} dest={{ app_directory }} force=yes
+  become: yes
+  become_user: '{{ app_name }}'
+
+- name: copy user config files
+  template: src={{ item.src }} dest={{ item.dest }}
+  with_items:
+    - { src: 'unicorn_config.rb.j2', dest: '{{ app_directory }}/config/unicorn.rb' }
+    - { src: 'gemrc.j2', dest: '{{ user_home }}/.gemrc' }
+    - { src: 'profile.j2', dest: '{{ user_home }}/.profile' }
+
+- name: bundle install
+  command: bundle install --path vendor/bundle --without development test chdir={{ app_directory }}
+  become: yes
+  become_user: '{{ app_name }}'
+
+- name: migrate database
+  shell: . {{ user_home }}/.profile && rake db:create db:migrate db:seed chdir={{ app_directory }}
+  become: yes
+  become_user: '{{ app_name }}'
+  notify: restart app
+

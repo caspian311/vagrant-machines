@@ -1,0 +1,19 @@
+---
+# playbook that will install nginx
+
+- name: install nginx
+  apt: name={{ item }} state=installed
+  with_items:
+    - nginx
+    - git
+ 
+- name: copy nginx configuration
+  template: src=nginx-default.conf dest=/etc/nginx/sites-enabled/default
+
+- name: nginx service state
+  service: name=nginx state=started enabled=yes
+
+- name: copy code from the repository
+  git: repo={{ git_repo }} dest={{ checkout_dir }}
+  notify: restart nginx
+

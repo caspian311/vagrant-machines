@@ -1,0 +1,15 @@
+todo-db  ansible_port=2222 ansible_host=127.0.0.1 ansible_user=vagrant
+
+todo-app ansible_port=2200 ansible_host=127.0.0.1 ansible_user=vagrant
+
+todo-web ansible_port=2201 ansible_host=127.0.0.1 ansible_user=vagrant
+
+[webservers]
+todo-web
+
+[appservers]
+todo-app
+
+[dbservers]
+todo-db
+
